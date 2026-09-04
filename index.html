@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Productivity Dashboard</title>
+  <script>
+    (function () {
+      var t = localStorage.getItem('pd_theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">🌙</button>
+
+  <div class="dashboard">
+
+    <section class="card card--clock" aria-label="Clock and greeting">
+      <p class="clock-time" id="clockTime">00:00:00</p>
+      <p class="clock-date" id="clockDate"></p>
+      <p class="clock-greeting" id="clockGreeting">Good Morning</p>
+      <div class="name-row" id="nameDisplay"></div>
+      <div class="name-form" id="nameForm" hidden>
+        <input class="input input--sm" type="text" id="nameInput"
+               placeholder="Enter your name..." maxlength="40" aria-label="Your name" />
+        <button class="btn btn--primary btn--sm" id="nameSaveBtn">Save</button>
+        <button class="btn btn--secondary btn--sm" id="nameCancelBtn">Cancel</button>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Focus timer">
+      <h2 class="card-title">Focus Timer</h2>
+      <p class="timer-display" id="timerDisplay">25:00</p>
+      <div class="timer-controls">
+        <button class="btn btn--primary" id="timerStart">Start</button>
+        <button class="btn btn--secondary" id="timerStop">Stop</button>
+        <button class="btn btn--secondary" id="timerReset">Reset</button>
+      </div>
+      <div class="timer-custom">
+        <label class="timer-custom-label" for="timerDuration">Set minutes:</label>
+        <input class="input input--sm" type="number" id="timerDuration"
+               min="1" max="120" value="25" aria-label="Timer duration in minutes" />
+        <button class="btn btn--secondary btn--sm" id="timerSetBtn">Set</button>
+      </div>
+    </section>
+
+    <section class="card" aria-label="To-do list">
+      <h2 class="card-title">Tasks</h2>
+      <div class="task-input-row">
+        <input class="input" type="text" id="taskInput"
+               placeholder="Add a new task..." aria-label="New task" />
+        <button class="btn btn--primary" id="taskAdd">Add</button>
+      </div>
+      <div class="task-sort-row">
+        <span class="sort-label">Sort:</span>
+        <button class="btn btn--ghost btn--sm sort-btn active" data-sort="default">Default</button>
+        <button class="btn btn--ghost btn--sm sort-btn" data-sort="az">A-Z</button>
+        <button class="btn btn--ghost btn--sm sort-btn" data-sort="za">Z-A</button>
+        <button class="btn btn--ghost btn--sm sort-btn" data-sort="done">Done last</button>
+      </div>
+      <ul class="task-list" id="taskList" aria-live="polite"></ul>
+    </section>
+
+    <section class="card card--links" aria-label="Quick links">
+      <h2 class="card-title">Quick Links</h2>
+      <div class="link-input-row">
+        <input class="input" type="text" id="linkName" placeholder="Link name" aria-label="Link name" />
+        <input class="input" type="url" id="linkUrl" placeholder="https://..." aria-label="Link URL" />
+        <button class="btn btn--primary" id="linkAdd">Add Link</button>
+      </div>
+      <div class="links-grid" id="linksGrid"></div>
+    </section>
+
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay"
+       role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal">
+      <h3 class="modal-title" id="modalTitle">Edit Task</h3>
+      <input class="input" type="text" id="modalInput"
+             placeholder="Task text..." aria-label="Edit task text" />
+      <div class="modal-actions">
+        <button class="btn btn--primary" id="modalSave">Save</button>
+        <button class="btn btn--secondary" id="modalCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
